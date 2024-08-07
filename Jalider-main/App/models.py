@@ -1,5 +1,7 @@
 from django.db import models
-# Create your models here.
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
+from django.utils import timezone
+from django.core.validators import FileExtensionValidator
 
 GENERO = [
     ("M","MASCULINO"),
@@ -74,12 +76,34 @@ class FiltroGas(models.Model):
     def __str__(self):
         return self.filtro_gas
     
-class Manutencao(models.Model):
-    carro_fk = models.CharField(max_length=1220)
-    OleoFiltroFK = models.ForeignKey(OleoFiltro, related_name='ManutencaoOleoFiltro', on_delete=models.CASCADE)
-    PastilhaDeFreioFK = models.ForeignKey(PastilhaDeFreio, related_name='ManutencaoPastilhaDeFreio', on_delete=models.CASCADE)
-    CorreiaDentalhaFK = models.ForeignKey(CorreiaDentalha, related_name='ManutencaoCorreiaDentalha', on_delete=models.CASCADE)
-    PneuFK = models.ForeignKey(Pneu, related_name='ManutencaoPneu', on_delete=models.CASCADE)
-    FiltroArCondicionadoFK = models.ForeignKey(FiltroArCondicionado, related_name='ManutencaoFiltroArCondicionado', on_delete=models.CASCADE)
-    FiltroGasFK = models.ForeignKey(FiltroGas, related_name='ManutencaoFiltroGas', on_delete=models.CASCADE)
+TIPO_COMBUSTIVEL = [
+    ('G','Gas'),
+    ('P','Gasolina'),
+    ('E','Etanol')
+] 
 
+class Carro(models.Model):
+    placa = models.CharField(max_length=7)
+    modelo = models.CharField(max_length=60)
+    ano = models.IntegerField()
+    kilometragem = models.IntegerField()
+    usuarioFK = models.ForeignKey(User, related_name='UserCarroFK', on_delete=models.CASCADE)
+    tipo = models.CharField(max_length=50,choices=TIPO_COMBUSTIVEL)
+    fotoFK = models.ForeignKey(Foto, related_name='FotoCarroFK', on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.placa
+
+
+class Manutencao(models.Model):
+    manutencao = models.CharField(max_length=100)
+    carroFK = models.ForeignKey(Carro, related_name='ManutencaoCarro', on_delete=models.CASCADE)
+    oleoFiltroFK = models.ForeignKey(OleoFiltro, related_name='ManutencaoOleoFiltroFK', on_delete=models.CASCADE)
+    pastilhaDeFreioFK = models.ForeignKey(PastilhaDeFreio, related_name='ManutencaoPastilhaDeFreioFK', on_delete=models.CASCADE)
+    correiaDentalhaFK = models.ForeignKey(CorreiaDentalha, related_name='ManutencaoCorreiaDentalhaFK', on_delete=models.CASCADE)
+    pneuFK = models.ForeignKey(Pneu, related_name='ManutencaoPneuFK', on_delete=models.CASCADE)
+    filtroArCondicionadoFK = models.ForeignKey(FiltroArCondicionado, related_name='ManutencaoFiltroArCondicionadoFK', on_delete=models.CASCADE)
+    filtroGasFK = models.ForeignKey(FiltroGas, related_name='ManutencaoFiltroGasFK', on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.manutencao
