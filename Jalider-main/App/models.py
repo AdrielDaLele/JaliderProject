@@ -107,3 +107,15 @@ class Manutencao(models.Model):
 
     def __str__(self):
         return self.manutencao
+    
+class Imposto(models.Model):
+    placaImposto = models.CharField(max_length=7)
+    licenciamento = models.IntegerField()
+    ipva = models.IntegerField()
+    seguro = models.IntegerField()
+    rastreador = models.IntegerField()
+    financiamento = models.IntegerField()
+    manutencaoFK = models.ForeignKey(Manutencao, related_name='ImpostoManutencao', on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.placaImposto
