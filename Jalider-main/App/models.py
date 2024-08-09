@@ -98,15 +98,36 @@ class Carro(models.Model):
 class Manutencao(models.Model):
     manutencao = models.CharField(max_length=100)
     carroFK = models.ForeignKey(Carro, related_name='ManutencaoCarro', on_delete=models.CASCADE)
-    oleoFiltroFK = models.ForeignKey(OleoFiltro, related_name='ManutencaoOleoFiltroFK', on_delete=models.CASCADE)
-    pastilhaDeFreioFK = models.ForeignKey(PastilhaDeFreio, related_name='ManutencaoPastilhaDeFreioFK', on_delete=models.CASCADE)
-    correiaDentalhaFK = models.ForeignKey(CorreiaDentalha, related_name='ManutencaoCorreiaDentalhaFK', on_delete=models.CASCADE)
-    pneuFK = models.ForeignKey(Pneu, related_name='ManutencaoPneuFK', on_delete=models.CASCADE)
-    filtroArCondicionadoFK = models.ForeignKey(FiltroArCondicionado, related_name='ManutencaoFiltroArCondicionadoFK', on_delete=models.CASCADE)
-    filtroGasFK = models.ForeignKey(FiltroGas, related_name='ManutencaoFiltroGasFK', on_delete=models.CASCADE)
+    # oleoFiltroFK = models.ForeignKey(OleoFiltro, related_name='ManutencaoOleoFiltroFK', on_delete=models.CASCADE) #feito
+    # pastilhaDeFreioFK = models.ForeignKey(PastilhaDeFreio, related_name='ManutencaoPastilhaDeFreioFK', on_delete=models.CASCADE)
+    # correiaDentalhaFK = models.ForeignKey(CorreiaDentalha, related_name='ManutencaoCorreiaDentalhaFK', on_delete=models.CASCADE)
+    # pneuFK = models.ForeignKey(Pneu, related_name='ManutencaoPneuFK', on_delete=models.CASCADE)
+    # filtroArCondicionadoFK = models.ForeignKey(FiltroArCondicionado, related_name='ManutencaoFiltroArCondicionadoFK', on_delete=models.CASCADE)
+    # filtroGasFK = models.ForeignKey(FiltroGas, related_name='ManutencaoFiltroGasFK', on_delete=models.CASCADE)
 
     def __str__(self):
         return self.manutencao
+    
+class ManOleoFiltro(models.Model):
+    manutencaoFK = models.ForeignKey(Manutencao, related_name='ManOleoFiltro', on_delete=models.CASCADE)
+    oleoFiltroFK = models.ForeignKey(OleoFiltro, related_name='ManOleoFiltroFK', on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.oleoFiltroFK.oleo
+
+class ManPastilhaDeFreio(models.Model):
+    manutencaoFK = models.ForeignKey(Manutencao, related_name='ManPastilhaDeFreio', on_delete=models.CASCADE)
+    pastilhaDeFreioFK = models.ForeignKey(PastilhaDeFreio, related_name='ManPastilhaDeFreioFK', on_delete=models.CASCADE)
+    
+    def __str__(self):
+        return self.pastilhaDeFreioFK.pastilha
+
+class ManCorreiaDentada(models.Model):
+    manutencaoFK = models.ForeignKey(Manutencao, related_name='ManCorreDentada', on_delete=models.CASCADE)
+    correiaDentalhaFK = models.ForeignKey(CorreiaDentalha, related_name='ManCorreiaDentalhaFK', on_delete=models.CASCADE)
+    
+    def __str__(self):
+        return self.correiaDentalhaFK.correia_dentalha
     
 class Imposto(models.Model):
     placaImposto = models.CharField(max_length=7)
