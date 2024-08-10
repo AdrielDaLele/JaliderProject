@@ -129,6 +129,28 @@ class ManCorreiaDentada(models.Model):
     def __str__(self):
         return self.correiaDentalhaFK.correia_dentalha
     
+class ManPneu(models.Model):
+    mautencaoFK = models.ForeignKey(Manutencao, related_name='ManPneu', on_delete=models.CASCADE)
+    pneuFK = models.ForeignKey(Pneu, related_name='ManPneuFK', on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.pneuFK.pneu
+    
+class ManFiltroArCondicionado(models.Model):
+    manutencaoFK = models.ForeignKey(Manutencao, related_name='ManFiltroArCondicionado', on_delete=models.CASCADE)
+    filtroArCondicionadoFK = models.ForeignKey(FiltroArCondicionado, related_name='ManFiltroArCondicionadoFK', on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.filtroArCondicionadoFK.filtro_ar_condicionado
+
+class ManFiltroGas(models.Model):
+    mautencaoFK = models.ForeignKey(Manutencao, related_name='ManFiltroGas', on_delete=models.CASCADE)
+    filtroGasFK = models.ForeignKey(FiltroGas, related_name='ManFiltroGasFK', on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.filtroGasFK.filtro_gas
+
+
 class Imposto(models.Model):
     placaImposto = models.CharField(max_length=7)
     licenciamento = models.IntegerField()
@@ -140,3 +162,4 @@ class Imposto(models.Model):
 
     def __str__(self):
         return self.placaImposto
+    
