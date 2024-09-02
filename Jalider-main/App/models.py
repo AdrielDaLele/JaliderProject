@@ -121,7 +121,7 @@ class ManPastilhaDeFreio(models.Model):
     
     def __str__(self):
         return self.pastilhaDeFreioFK.pastilha
-
+    
 class ManCorreiaDentada(models.Model):
     manutencaoFK = models.ForeignKey(Manutencao, related_name='ManCorreDentada', on_delete=models.CASCADE)
     correiaDentalhaFK = models.ForeignKey(CorreiaDentalha, related_name='ManCorreiaDentalhaFK', on_delete=models.CASCADE)
